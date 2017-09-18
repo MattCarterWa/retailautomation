@@ -61,7 +61,7 @@ def create_blank_page():
 
 
 def puzzler(bg_object, placeable, left_edge_buffer, placeablebuffer):
-    #bj_object
+    # bj_object
     pass
 
 page = create_blank_page()
