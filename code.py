@@ -3,9 +3,11 @@ from barcode import Barcode
 
 class Code:
     def __init__(self, code):
-        self.text = ""
         self.original = str(code)
+        self.text = ""
         self.type = ""
+        # self.detect_type(code)
+
 
     def barcode(self):
         return Barcode(self.text)

@@ -1,6 +1,8 @@
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
+from salvage_sticker_barcode import generate_barcode, get_binary
 import os
+from papers import create_blank_page
 
 # Gets date info
 month = str(datetime.today().month)
@@ -29,7 +31,7 @@ sticker_folder = "salvage_stickers"
 sticker_path = os.path.join(os.getcwd(), sticker_folder, file_name)
 
 if not os.path.exists(sticker_path):
-    print(barcode_text)
+    # print(barcode_text)
     default_small = ImageFont.truetype("arial.ttf", 20)
     default_large = ImageFont.truetype("arial.ttf", 32)
     barcode_font = ImageFont.truetype("fonts/code128.ttf", 100)
@@ -44,29 +46,52 @@ if not os.path.exists(sticker_path):
     sticker.text(barcode_printstring_location, print_string, font=default_large, fill="black")
     im.show()
 
-def get_barcode_text(bct):
-    pass
 
-class SalvageSticker:
+def convert_to_binary(bct):
+    i = 1
+    start_binary = "11010011100"
+    end_binary = "1100011101011"
+    check_digit = 105
+    odd = len(bct) % 2
+    pairs = int(len(bct)/2)
+    last_pair = 0
+    binary = ""
+    for pair in range(pairs):
+        target = 2 + 2*pair
+        combo = int(bct[last_pair: target])
+        check_digit += combo * i
+        last_pair = target
+        i += 1
+        # print(combo)
+        binary += get_binary(str(combo))
 
-    def __init__(self):
-        self.img = ""
+    if odd == 1:
+        last_num = int(bct[-1]) * i
+        check_digit += last_num
+        binary += get_binary(str(last_num))
+        print(bct[-1])
+
+    check_digit %= 103
+    binary += get_binary(str(check_digit))
+    binary = start_binary + binary + end_binary
+    bct += str(check_digit)
+    # print(binary)
+    # print(bct)
+    return binary
 
 
-def create_blank_page():
-    size = (2550, 3300)
-    im = Image.new("RGB", size, "white")
-    background = ImageDraw.Draw(im)
-    return [im, background]
+
+   # check_digit = check_digit % 103
 
 
-def puzzler(bg_object, placeable, left_edge_buffer, placeablebuffer):
-    # bj_object
-    pass
+  #  start_binary = "11010011100"
+  #  end_binary = "1100011101011"
 
-page = create_blank_page()
+
+# page = create_blank_page()
 # page[0].show()
-print(print_string)
+# print(print_string)
+# print(convert_to_binary(barcode_text))
 
 
 

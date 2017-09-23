@@ -60,33 +60,6 @@ class Barcode:
 
         image.save(self.path)
 
-def convert_to_salvage_barcode(code):
-    start = "ì"
-    end = "î"
-    converted_code = "".join(())
-
-
-def salvage_checksum(code):
-    value = {
-        "0": 16,
-        "1": 17,
-        "2": 18,
-        "3": 19,
-        "4": 20,
-        "5": 21,
-        "6": 22,
-        "7": 23,
-        "8": 24,
-        "9": 25,
-    }
-
-    start = 105
-    num = 1
-    for i in code:
-        start += value[i] * num
-        num += 1
-    print(start/103)
-
 
 
 
